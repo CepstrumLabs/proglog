@@ -9,11 +9,11 @@ import (
 func NewHttpServer(addr string) *http.Server {
 	httpsrv := newHttpServer()
 	r := mux.NewRouter()
-	r.handle("/", httpsrv.handleProduce).Methods("POST")
-	r.handle("/", httpsrv.handleConsume).Methods("GET")
+	r.HandleFunc("/", httpsrv.handleProduce).Methods("POST")
+	r.HandleFunc("/", httpsrv.handleConsume).Methods("GET")
 	return &http.Server{
 		Addr: addr,
-		handler: r,
+		Handler: r,
 	}
 }
 
@@ -21,26 +21,26 @@ type httpServer struct {
 	Log *Log
 }
 
-func newHttpServer *httpServer {
+func newHttpServer() *httpServer {
 	return &httpServer{
-		Log: NewLog()
+		Log: NewLog(),
 	}
 }
 
 type ProduceRequest struct {
-	Record: Record `json:"record"`
+	Record Record `json:"record"`
 }
 
 type ProduceResponse struct {
-	Offset: uint64 `json:"offset"`
+	Offset uint64 `json:"offset"`
 }
 
 type ConsumeRequest struct {
-	Offset: uint64 `json:"offset"`
+	Offset uint64 `json:"offset"`
 }
 
 type ConsumeResponse struct {
-	Record: Record `json:"record"`
+	Record Record `json:"record"`
 }
 
 func (s *httpServer) handleProduce(w http.ResponseWriter, r *http.Request) {
@@ -51,7 +51,7 @@ func (s *httpServer) handleProduce(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	offset, err = s.Log.Append(req.Record)
+	offset, err := s.Log.Append(req.Record)
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -76,7 +76,7 @@ func (s *httpServer) handleConsume(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	record, err = s.Log.Read(req.Offset)
+	record, err := s.Log.Read(req.Offset)
 
 	if err == ErrOffsetNotFound {
 		http.Error(w, err.Error(), http.StatusNotFound)
