@@ -57,22 +57,51 @@ func (s *store) Append(p []byte) (n uint64, pos uint64, err error) {
 func (s *store) Read(pos uint64) ([]byte, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-
+	// Flush the buffer in case we're about to read data
+	// that is still on the buffer and not on the disk
 	if err := s.buf.Flush(); err != nil {
 		return nil, err
 	}
 
 	size := make([]byte, lenWidth)
 
+	// Read the size of the thing we are about to
+	// read so we know how long the record is
 	if _, err := s.File.ReadAt(size, int64(pos)); err != nil {
 		return nil, err
 	}
 
+	// create a list of bytes of size enc.Uint64(size)
 	b := make([]byte, enc.Uint64(size))
 
+	// Read len(b) bytes at position pos + lenWidth
 	if _, err := s.File.ReadAt(b, int64(pos+lenWidth)); err != nil {
 		return nil, err
 	}
 
 	return b, nil
+}
+
+func (s *store) ReadAt(p []byte, off int64) (int, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	if err := s.buf.Flush(); err != nil {
+		return 0, err
+	}
+
+	return s.File.ReadAt(p, off)
+}
+
+func (s *store) Close() error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	err := s.buf.Flush()
+
+	if err != nil {
+		return err
+	}
+
+	return s.File.Close()
 }
