@@ -65,6 +65,10 @@ func testRead(t *testing.T, s *store) {
 }
 
 func testReadAt(t *testing.T, s *store) {
+	/* Given a prepopulated store instance
+	   When I iteratively read it using the ReadAt function
+	   Then I correctly read the contents I wrote to it
+	*/
 	t.Helper()
 	for i, off := uint64(1), int64(0); i <= 4; i++ {
 		b := make([]byte, lenWidth)
