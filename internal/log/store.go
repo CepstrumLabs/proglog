@@ -12,8 +12,8 @@ var (
 )
 
 const (
-	lenWidth = 8
-)
+	lenWidth = 8 // the size of the store is uint64
+) // which can be represented by 8 bytes
 
 type store struct {
 	*os.File
@@ -97,9 +97,7 @@ func (s *store) Close() error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
-	err := s.buf.Flush()
-
-	if err != nil {
+	if err := s.buf.Flush(); err != nil {
 		return err
 	}
 
