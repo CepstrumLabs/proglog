@@ -36,7 +36,10 @@ func TestStoreAppendRead(t *testing.T) {
 func testAppend(t *testing.T, s *store) {
 	/* Given a store instance
 	   When I append a sequence s made of of n bytes
-	   Then I expect its size to be n + 8
+	   Then I expect its size to be n + lenWidth=8
+
+	   lenWidth is the number of bytes used to represent
+	   the length of the actual data being stored in the store
 	(*/
 	t.Helper()
 	for i := uint64(1); i <= 4; i++ {
