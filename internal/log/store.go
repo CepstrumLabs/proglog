@@ -14,6 +14,8 @@ var (
 const (
 	lenWidth = 8 // the size of the store is uint64
 ) // which can be represented by 8 bytes
+// lenWidth is the number of bytes used to represent
+//   the length of the actual data being stored in the store
 
 type store struct {
 	*os.File
@@ -37,6 +39,14 @@ func newStore(f *os.File) (*store, error) {
 
 }
 
+// Append adds the sequence of bytes p to the store instance
+// it first writes the length of the sequence to add as binary data,
+// then it writes the contents of p and keeps track of the bytes written
+// the total number of bytes written is the number of bytes used to write
+// the length of the data to be written and then the number of bytes that represents
+// the data itself.
+// It returns the number of bytes written n, the position that they were inserted into
+// and an error or nil if no error occurs
 func (s *store) Append(p []byte) (n uint64, pos uint64, err error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
