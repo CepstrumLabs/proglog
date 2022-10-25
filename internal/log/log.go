@@ -3,6 +3,7 @@ package log
 import (
 	"fmt"
 	"io/ioutil"
+	"os"
 	"path"
 	"sort"
 	"strconv"
@@ -110,4 +111,18 @@ func (l *Log) Close() error {
 		}
 	}
 	return nil
+}
+
+func (l *Log) Remove() error {
+	if err := l.Close(); err != nil {
+		return nil
+	}
+	return os.RemoveAll(l.Dir)
+}
+
+func (l *Log) Reset() error {
+	if err := l.Close(); err != nil {
+		return nil
+	}
+	return l.setup()
 }
