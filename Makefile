@@ -1,6 +1,6 @@
 
 test:
-	go test ./...
+	go test -v ./...
 
 compile:
 	protoc api/v1/*.proto \
