@@ -1,0 +1,16 @@
+{
+    "CN": "CepstrumLabs Test CA",
+    "key": {
+        "algo": "rsa",
+        "size": 2048
+    },
+    "names": [
+        {
+            "C": "UK",
+            "L": "LDN",
+            "ST": "London",
+            "O": "CepstrumLabs",
+            "OU": "CepstrumLabs CA Services"
+        }
+    ]
+}
