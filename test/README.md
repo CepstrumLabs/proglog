@@ -1,5 +1,5 @@
 To initialis4 eour CA and generate certs, we need to pass various config files
-to `cfssl`. We meed seperate config files to generate our CA and server certs and
+to `cfssl`. We need seperate config files to generate our CA and server certs and
 we need a config file containing general config info about our CA
 
 Files used:
