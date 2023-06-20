@@ -22,7 +22,7 @@ jobs:
       
       - name: Use cfssl
         run: |
-          cfssl version
+          /usr/local/bin/cfssl version
       
       - name: Build
         run: make build
