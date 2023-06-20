@@ -5,7 +5,7 @@ CONFIG_PATH=${HOME}/.proglog/
 init:
 	mkdir -p ${CONFIG_PATH}
 
-gencert:
+gencert: init
 	cfssl gencert \
 		-initca test/ca-csr.json | cfssljson -bare ca
 	
