@@ -16,13 +16,12 @@ jobs:
       
       - name: Install cfssl
         run: |
-          curl -s -L -o cfssl https://github.com/cloudflare/cfssl/releases/latest/download/cfssl_linux-amd64
-          chmod +x cfssl
-          mv cfssl /usr/local/bin/cfssl
-      
+          apt update
+          apt install golang-cfssl
+
       - name: Use cfssl
         run: |
-          /usr/local/bin/cfssl version
+          cfssl version
       
       - name: Build
         run: make build
