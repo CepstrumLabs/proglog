@@ -1,4 +1,4 @@
-To initialis4 eour CA and generate certs, we need to pass various config files
+To initialise our CA and generate certs, we need to pass various config files
 to `cfssl`. We need seperate config files to generate our CA and server certs and
 we need a config file containing general config info about our CA
 
@@ -15,4 +15,4 @@ ca-config.json -> use this file to define the CA's policy
 
 server-csr.json -> `cfssl` will use it to configure our server's certificate
     the `hosts` field is a list of the domain names for which the certificate should be
-    valid for. Since we're running our service locally we need "localost" and "127.0.0.1"
+    valid for. Since we're running our service locally we need "localhost" and "127.0.0.1"
