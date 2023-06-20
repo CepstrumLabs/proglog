@@ -18,6 +18,6 @@ jobs:
         run: make build
 
       - name: Test
-        run: make test
+        run: CI=1 make test
 
 
