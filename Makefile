@@ -25,7 +25,7 @@ gencert: init
 
 	mv *.pem *.csr ${CONFIG_PATH}
 
-test:
+test: gencert
 	go test -v ./...
 
 compile:
