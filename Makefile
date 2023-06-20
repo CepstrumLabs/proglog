@@ -5,20 +5,7 @@ CONFIG_PATH=${HOME}/.proglog/
 init:
 	mkdir -p ${CONFIG_PATH}
 
-ifeq ($(origin CI), environment)
-# CI variable is set
-tools:
-	@echo CI is set
-	@curl -s -L -o /bin/cfssl-certinfo https://pkg.cfssl.org/R1.2/cfssl-certinfo_linux-amd64
-	@chmod +x /bin/cfssl*
-
-else
-# CI variable is not set - noop
-tools:
-	@echo CI is not set
-endif
-
-gencert: init tools
+gencert: init
 	cfssl gencert \
 		-initca test/ca-csr.json | cfssljson -bare ca
 	
