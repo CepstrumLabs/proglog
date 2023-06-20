@@ -28,6 +28,9 @@ gencert: init
 test: gencert
 	go test -v ./...
 
+build:
+	go build -v ./...
+
 compile:
 	protoc api/v1/*.proto \
 		--go_out=. \
