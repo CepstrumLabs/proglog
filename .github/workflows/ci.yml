@@ -3,8 +3,8 @@ name: Go package
 on: [push]
 
 jobs:
-  build:
 
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -13,11 +13,20 @@ jobs:
         uses: actions/setup-go@v3
         with:
           go-version: 1.18
+      
+      - name: Install cfssl
+        run: |
+          apt update
+          sudo apt install golang-cfssl
 
+      - name: Use cfssl
+        run: |
+          cfssl version
+      
       - name: Build
-        run: go build -v ./...
+        run: make build
 
       - name: Test
-        run: go test -v ./...
+        run: CI=1 make test
 
 
