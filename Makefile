@@ -1,5 +1,14 @@
 CONFIG_PATH=${HOME}/.proglog/
 
+## ACL model
+$(CONFIG_PATH)/model.conf:
+	cp test/model.conf $(CONFIG_PATH)/model.conf
+
+## ACL policy
+$(CONFIG_PATH)/policy.csv:
+	cp test/policy.csv $(CONFIG_PATH)/policy.csv
+
+
 .PHONY: compile gencert init test tools cfssl-install
 
 init:
@@ -30,7 +39,7 @@ gencert: init
 		test/client-csr.json | cfssljson -bare nobody-client
 	mv *.pem *.csr ${CONFIG_PATH}
 
-test: gencert
+test: $(CONFIG_PATH)/model.conf $(CONFIG_PATH)/policy.csv gencert
 	go test -v ./...
 
 build:
